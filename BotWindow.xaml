@@ -1,0 +1,203 @@
+﻿<Window x:Name="BotWindowMain" x:Class="Bot.BotWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Bot"
+        mc:Ignorable="d"
+        Title="Бот" Height="450" Width="800" Topmost="True" MinWidth="800" MinHeight="450" MaxWidth="800">
+    <Grid>
+        <TabControl Margin="10">
+            <TabItem x:Name="AccountTab" Header="Аккаунт" Margin="-2,-2,-15,0">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="GroupID" Margin="20,64,0,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" Width="607" Height="23" VerticalAlignment="Top"/>
+                    <TextBlock Margin="20,48,0,0" TextWrapping="Wrap" Text="ID группы" RenderTransformOrigin="1.799,1.003" HorizontalAlignment="Left" Width="55" Height="16" VerticalAlignment="Top"/>
+                    <TextBox x:Name="GroupToken" Margin="20,103,0,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" Width="607" Height="23" VerticalAlignment="Top"/>
+                    <TextBlock Margin="20,87,0,0" TextWrapping="Wrap" Text="Токен группы" RenderTransformOrigin="1.799,1.003" HorizontalAlignment="Left" Width="76" Height="16" VerticalAlignment="Top"/>
+                    <TextBox x:Name="SecretKey" Margin="20,142,0,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" Width="607" Height="23" VerticalAlignment="Top"/>
+                    <TextBlock Margin="20,126,0,0" TextWrapping="Wrap" Text="Ключ группы" RenderTransformOrigin="1.799,1.003" HorizontalAlignment="Left" Width="73" Height="16" VerticalAlignment="Top"/>
+                    <TextBox x:Name="ApplicationID" Margin="20,181,0,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" Width="607" Height="23" VerticalAlignment="Top"/>
+                    <TextBlock Margin="20,165,0,0" TextWrapping="Wrap" Text="ID приложения группы" RenderTransformOrigin="1.799,1.003" HorizontalAlignment="Left" Width="140" Height="16" VerticalAlignment="Top"/>
+                    <TextBox x:Name="YourToken" Margin="20,220,0,0" TextWrapping="Wrap" Text="" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="607"/>
+                    <TextBlock Margin="20,204,0,0" TextWrapping="Wrap" Text="Индивидуальный токен" RenderTransformOrigin="1.799,1.003" HorizontalAlignment="Left" Width="140" Height="16" VerticalAlignment="Top"/>
+                    <TextBox x:Name="AccountID" Margin="20,26,0,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" Width="607" Height="23" VerticalAlignment="Top"/>
+                    <TextBlock Margin="20,10,0,0" TextWrapping="Wrap" RenderTransformOrigin="1.799,1.003" HorizontalAlignment="Left" Width="73" Height="16" VerticalAlignment="Top"><Run Text="ID "/><Run Text="Аккаунта"/></TextBlock>
+                    <WebBrowser x:Name="MyWeb" HorizontalAlignment="Left" Margin="20,248,0,10" Width="607" Navigated="GetToken"/>
+                    <Button x:Name="SendAccData" Content="Получить инд. токен" HorizontalAlignment="Left" Margin="632,181,0,0" VerticalAlignment="Top" Width="124" Click="SendAccauntData"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="BotTab" Header="Бот" Margin="15,-2,-54,0">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0*"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="0*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Typing_text"
+                               HorizontalAlignment="Left" 
+                               Margin="539,131,0,0" 
+                               TextWrapping="Wrap" 
+                               Text="" 
+                               Width="217" Grid.Column="1" Grid.Row="1" Height="19" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txt"
+                               Margin="397,225,0,0"
+                               TextWrapping="Wrap"
+                               Text="" Height="70" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left" Width="359" Grid.Row="1" Visibility="Hidden"/>
+                    <TextBox x:Name="BotMessage"
+                        Margin="397,10,0,0"
+                        TextWrapping="Wrap"
+                        Text="" Height="76" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left" Width="359" Grid.Row="1" SpellCheck.IsEnabled="True" AcceptsReturn="True"/>
+                    <Button x:Name="SendMessage" Content="Отправить"
+                            Margin="397,91,0,0" Click="SendMessageBtn" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="137" Grid.Column="1" Grid.Row="1"/>
+                    <TextBox x:Name="AnswerTxt"
+                        Margin="397,156,0,0"
+                        TextWrapping="Wrap"
+                        Text="" Height="64" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left" Width="359" Grid.Row="1" Visibility="Hidden"/>
+                    <ScrollViewer Margin="0,0,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.IsSharedSizeScope="True" HorizontalAlignment="Left" Width="392">
+                        <StackPanel x:Name="MyStack"
+                                    Height="Auto"
+                                    Width="Auto"
+                                    MinWidth="358"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                    Margin="0,0,0,0"/>
+                    </ScrollViewer>
+                    <Image x:Name="Img"
+                           HorizontalAlignment="Left" 
+                           Height="35" Margin="539,91,0,0" 
+                           VerticalAlignment="Top"
+                           Width="35" Stretch="Fill"
+                           Source="Images/IconGroup21.png"
+                           Cursor="Hand" 
+                           Grid.ColumnSpan="2" 
+                           Grid.RowSpan="2"
+                           MouseDown="SendPhotoBtn"/>
+                    <Image x:Name="Snd"
+                           HorizontalAlignment="Left" 
+                           Height="35"
+                           Margin="579,91,0,0"
+                           VerticalAlignment="Top"
+                           Width="35" 
+                           Stretch="Fill" 
+                           Source="Images/IconGroup131.png"
+                           Cursor="Hand"
+                           Grid.ColumnSpan="2"
+                           Grid.RowSpan="2"
+                           MouseDown="SendAudioBtn"/>
+                    <Image x:Name="Vid"
+                           HorizontalAlignment="Left"
+                           Height="35" 
+                           Margin="619,91,0,0"
+                           VerticalAlignment="Top"
+                           Width="35"
+                           Stretch="Fill"
+                           Source="Images/IconGroup23.png"
+                           Cursor="Hand"
+                           Grid.ColumnSpan="2"
+                           Grid.RowSpan="2"
+                           MouseDown="SendVideoBtn"/>
+                    <Image x:Name="Fil" 
+                           HorizontalAlignment="Left" 
+                           Height="35" 
+                           Margin="659,91,0,0" 
+                           VerticalAlignment="Top"
+                           Width="35" 
+                           Stretch="Fill"
+                           Source="Images/IconGroup174.png"
+                           Cursor="Hand" 
+                           Grid.ColumnSpan="2" 
+                           Grid.RowSpan="2" 
+                           MouseDown="SendDocBtn"/>
+                    <Button x:Name="AddUser"
+                            Grid.ColumnSpan="2" 
+                            Content="+"
+                            HorizontalAlignment="Left"
+                            Margin="493,300,0,0" 
+                            Grid.RowSpan="2" 
+                            VerticalAlignment="Top" 
+                            Width="22"
+                            Height="22" Click="AddUserBtn" FontWeight="Bold" FontSize="14"/>
+                    <ComboBox x:Name="UsersList"
+                              Grid.ColumnSpan="2"
+                              HorizontalAlignment="Left" 
+                              Margin="547,300,0,0"
+                              Grid.RowSpan="2"
+                              VerticalAlignment="Top"
+                              Width="147"/>
+                    <TextBox x:Name="UserIDBox"
+                             Grid.ColumnSpan="2" 
+                             HorizontalAlignment="Left" 
+                             Height="23"
+                             Margin="547,327,0,0" 
+                             Grid.RowSpan="2" 
+                             TextWrapping="Wrap"
+                             Text=""
+                             VerticalAlignment="Top"
+                             Width="147"/>
+                    <Button x:Name="RemoveUser"
+                        Grid.ColumnSpan="2" 
+                        Content="-"
+                        HorizontalAlignment="Left"
+                        Margin="520,300,0,0" 
+                        Grid.RowSpan="2" 
+                        VerticalAlignment="Top" 
+                        Width="22"
+                        Height="22" Click="RemoveUserBtn" FontWeight="Bold" FontSize="14"/>
+                    <TextBlock Grid.ColumnSpan="2"
+                               HorizontalAlignment="Left"
+                               Margin="397,300,0,0"
+                               Grid.RowSpan="2"
+                               TextWrapping="Wrap"
+                               Text="Контакты"
+                               VerticalAlignment="Top"
+                               Width="91"
+                               Height="22"
+                               FontSize="14" TextAlignment="Center"/>
+                    <Image x:Name="ShowAttachmentsBtn" Grid.ColumnSpan="2" 
+                           HorizontalAlignment="Left"
+                           Height="35"
+                           Margin="699,91,0,0"
+                           Grid.RowSpan="2"
+                           VerticalAlignment="Top"
+                           Width="35" Source="icons8-вложение-96.png" 
+                           Cursor="Hand"
+                           MouseDown="ShowUploadsBtn"/>
+                    <Button x:Name="ClearLog"
+                            Grid.ColumnSpan="2"
+                            Content="Очистить историю"
+                            HorizontalAlignment="Left"
+                            Margin="397,131,0,0"
+                            Grid.RowSpan="2"
+                            VerticalAlignment="Top"
+                            Width="137" 
+                            Click="ClearLogFile"
+                            RenderTransformOrigin="1.228,0.2"/>
+                    <TextBlock x:Name="Downloading"
+                               Grid.ColumnSpan="2"
+                               HorizontalAlignment="Left"
+                               Margin="397,155,0,0" 
+                               Grid.RowSpan="2"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Width="137"
+                               Height="20"/>
+                    <TextBlock Grid.ColumnSpan="2"
+                        HorizontalAlignment="Left"
+                        Margin="397,327,0,0"
+                        Grid.RowSpan="2"
+                        TextWrapping="Wrap"
+                        Text="ID пользователя"
+                        VerticalAlignment="Top"
+                        Width="145"
+                        Height="22"
+                        FontSize="14" TextAlignment="Center"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <TextBlock x:Name="Busy" HorizontalAlignment="Left" Margin="455,125,0,0" TextWrapping="Wrap" Text="Идёт загрузка на сервер" VerticalAlignment="Top" Width="265" Height="35" FontWeight="Bold" FontSize="22" Visibility="Hidden"/>
+    </Grid>
+</Window>
